@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monal Sharma — Artist Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --charcoal: #1a1a1a;
+      --dark-gray: #2e2e2e;
+      --mid-gray: #5a5a5a;
+      --light-gray: #b0b0b0;
+      --off-white: #f2f0eb;
+      --white: #ffffff;
+      --cream: #faf8f4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--black);
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      width: 10px; height: 10px;
+      background: var(--black);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, background 0.2s;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--black);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.25s ease;
+      opacity: 0.6;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: var(--black);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 60px 20px;
+    }
+
+    .header-noise {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .header-lines {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    .header-lines::before,
+    .header-lines::after {
+      content: '';
+      position: absolute;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .header-lines::before {
+      top: 40px; left: 40px; right: 40px; bottom: 40px;
+    }
+    .header-lines::after {
+      top: 55px; left: 55px; right: 55px; bottom: 55px;
+    }
+
+    .header-ornament {
+      font-size: 12px;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200;
+      margin-bottom: 28px;
+      animation: fadeUp 1s ease 0.2s both;
+    }
+
+    .header-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(56px, 10vw, 120px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+      color: var(--white);
+      animation: fadeUp 1s ease 0.4s both;
+    }
+
+    .header-name span {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(36px, 6vw, 72px);
+      color: var(--light-gray);
+      letter-spacing: 4px;
+    }
+
+    .header-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200;
+      font-size: clamp(11px, 1.6vw, 15px);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-top: 28px;
+      animation: fadeUp 1s ease 0.6s both;
+    }
+
+    .header-divider {
+      width: 80px; height: 1px;
+      background: var(--light-gray);
+      margin: 32px auto;
+      animation: expandWidth 1s ease 0.8s both;
+    }
+
+    .header-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(16px, 2.5vw, 24px);
+      color: rgba(255,255,255,0.6);
+      max-width: 500px;
+      line-height: 1.7;
+      animation: fadeUp 1s ease 1s both;
+    }
+
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      animation: fadeUp 1s ease 1.4s both;
+    }
+    .scroll-hint span {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      letter-spacing: 5px;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--mid-gray), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding: 18px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    /* ===== SECTIONS ===== */
+    section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: 16px;
+    }
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: 50px;
+    }
+    .section-heading em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--mid-gray);
+    }
+
+    /* ===== ABOUT ===== */
+    .about-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-text {
+      font-size: 20px;
+      line-height: 1.9;
+      color: var(--dark-gray);
+      font-weight: 300;
+    }
+    .about-text p + p { margin-top: 20px; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+    .stat-box {
+      background: var(--black);
+      color: var(--white);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: var(--light-gray);
+    }
+    .stat-box:nth-child(even) {
+      background: var(--charcoal);
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--white);
+    }
+    .stat-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-top: 8px;
+    }
+
+    /* ===== SKILLS ===== */
+    .skills-section { background: var(--black); color: var(--white); max-width: 100%; }
+    .skills-inner { max-width: 1200px; margin: 0 auto; padding: 100px 60px; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .skill-card {
+      background: var(--charcoal);
+      padding: 44px 36px;
+      position: relative;
+      transition: background 0.4s;
+      border-left: 3px solid transparent;
+    }
+    .skill-card:hover {
+      background: #222;
+      border-left-color: var(--white);
+    }
+    .skill-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .skill-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .skill-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--light-gray);
+    }
+    .skill-tag {
+      display: inline-block;
+      margin-top: 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      border: 1px solid var(--dark-gray);
+      padding: 6px 12px;
+    }
+
+    /* ===== SERVICES ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .service-card {
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 50px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s;
+      background: var(--white);
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 3px;
+      background: var(--black);
+      transition: width 0.5s ease;
+    }
+    .service-card:hover::after { width: 100%; }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+    .service-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 900;
+      color: rgba(0,0,0,0.06);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .service-desc {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--mid-gray);
+    }
+
+    /* ===== ACHIEVEMENTS ===== */
+    .achievements-section { background: var(--off-white); max-width: 100%; }
+    .achievements-inner { max-width: 1200px; margin: 0 auto; padding: 100px 60px; }
+    .achievement-list { margin-top: 60px; }
+    .achievement-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 40px;
+      padding: 44px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      align-items: start;
+      transition: padding-left 0.4s;
+    }
+    .achievement-item:hover { padding-left: 16px; }
+    .achievement-item:first-child { border-top: 1px solid rgba(0,0,0,0.1); }
+    .achievement-year {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--light-gray);
+      padding-top: 6px;
+    }
+    .achievement-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+    .achievement-desc {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--mid-gray);
+    }
+    .achievement-badge {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      margin-top: 14px;
+    }
+
+    /* ===== GALLERY ===== */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      gap: 3px;
+      margin-top: 60px;
+    }
+    .gallery-item {
+      background: var(--charcoal);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .gallery-item:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: unset;
+    }
+    .gallery-item:nth-child(4) { background: var(--black); }
+    .gallery-item:nth-child(5) { background: #111; }
+    .gallery-item:nth-child(6) { grid-column: span 2; }
+
+    .gallery-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 80px;
+      opacity: 0.07;
+    }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0);
+      transition: background 0.4s;
+      display: flex; align-items: flex-end; padding: 28px;
+    }
+    .gallery-item:hover .gallery-overlay { background: rgba(0,0,0,0.7); }
+    .gallery-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s;
+    }
+    .gallery-item:hover .gallery-label { opacity: 1; transform: translateY(0); }
+    .gallery-pattern {
+      position: absolute; inset: 0;
+      opacity: 0.15;
+    }
+
+    /* Mandala SVG pattern */
+    .mandala-bg {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ===== CONTACT ===== */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 100px 60px 60px;
+    }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      padding-bottom: 80px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .footer-heading em { font-style: italic; font-weight: 400; color: var(--mid-gray); }
+    .footer-sub {
+      font-size: 18px;
+      line-height: 1.9;
+      color: var(--light-gray);
+    }
+    .contact-items { display: flex; flex-direction: column; gap: 36px; }
+    .contact-item { display: flex; gap: 24px; align-items: flex-start; }
+    .contact-icon {
+      width: 48px; height: 48px;
+      background: var(--charcoal);
+      border: 1px solid var(--dark-gray);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .contact-type {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 6px;
+    }
+    .contact-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--white);
+      font-weight: 400;
+    }
+    .contact-value a { color: inherit; text-decoration: none; transition: color 0.3s; }
+    .contact-value a:hover { color: var(--light-gray); }
+    .footer-bottom {
+      padding-top: 40px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .footer-copy {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: var(--mid-gray);
+    }
+
+    /* ===== DIVIDERS ===== */
+    .full-divider { border: none; border-top: 1px solid rgba(0,0,0,0.08); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes expandWidth {
+      from { width: 0; }
+      to   { width: 80px; }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    /* Reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    @media (max-width: 768px) {
+      section, .skills-inner, .achievements-inner, footer { padding: 70px 24px; }
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .about-wrapper, .footer-top { grid-template-columns: 1fr; gap: 40px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(1) { grid-column: span 2; }
+      .gallery-item:nth-child(6) { grid-column: span 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header id="home">
+    <div class="header-noise"></div>
+    <div class="header-lines"></div>
+
+    <div class="header-ornament">Artist · Painter · Visionary</div>
+
+    <h1 class="header-name">
+      Monal
+      <span>Sharma</span>
+    </h1>
+
+    <div class="header-title">Drawing Expert &nbsp;|&nbsp; Fine Art Painter</div>
+
+    <div class="header-divider"></div>
+
+    <p class="header-tagline">
+      Where every stroke tells a story,<br/>and every canvas holds a universe.
+    </p>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- ===== NAV ===== -->
+  <nav>
+    <a href="#home" class="nav-logo">MS</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#achievements">Achievements</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about">
+    <div class="section-label reveal">About the Artist</div>
+    <h2 class="section-heading reveal">
+      Painting the world<br/><em>one masterpiece at a time</em>
+    </h2>
+    <div class="about-wrapper">
+      <div class="about-text reveal">
+        <p>
+          Monal Sharma is a celebrated Indian artist whose work transcends the boundaries of traditional art forms. With a rare mastery over sketching, abstract painting, realistic portraiture, and the meditative intricacy of mandala art, Monal has carved a singular identity in the world of fine arts.
+        </p>
+        <p>
+          From intimate pencil sketches that capture the soul of a subject, to vibrant abstract compositions that dance with colour and emotion, every piece by Monal is a testament to years of disciplined practice and boundless creative passion.
+        </p>
+        <p>
+          Her dedication to her craft has earned her recognition not only across India but on the world stage — with her iconic rendering of Jaipur's Hawa Mahal being exhibited at the prestigious Louvre Museum, Paris, as a work of cultural heritage.
+        </p>
+      </div>
+      <div class="about-stats reveal reveal-delay-2">
+        <div class="stat-box">
+          <div class="stat-number">1000+</div>
+          <div class="stat-label">Wall Painting Clients</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">4</div>
+          <div class="stat-label">Art Specialisations</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Service Verticals</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Creative Vision</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="full-divider"/>
+
+  <!-- ===== SKILLS ===== -->
+  <div class="skills-section" id="skills">
+    <div class="skills-inner">
+      <div class="section-label reveal" style="color:var(--mid-gray)">Areas of Expertise</div>
+      <h2 class="section-heading reveal" style="color:var(--white)">
+        The art of<br/><em>mastery</em>
+      </h2>
+      <div class="skills-grid">
+        <div class="skill-card reveal reveal-delay-1">
+          <span class="skill-icon">✏️</span>
+          <div class="skill-name">Sketch & Drawing</div>
+          <div class="skill-desc">Precise pencil and charcoal sketches that bring faces, landscapes, and emotions to life with extraordinary detail and depth.</div>
+          <div class="skill-tag">Pencil · Charcoal · Ink</div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+          <span class="skill-icon">🎨</span>
+          <div class="skill-name">Colourful Abstract</div>
+          <div class="skill-desc">Vibrant, expressive abstract compositions that convey emotion through bold color palettes, dynamic textures, and fluid forms.</div>
+          <div class="skill-tag">Acrylic · Oil · Mixed Media</div>
+        </div>
+        <div class="skill-card reveal reveal-delay-3">
+          <span class="skill-icon">🖼️</span>
+          <div class="skill-name">Realistic Painting</div>
+          <div class="skill-desc">Hyper-realistic paintings capturing subjects with near-photographic precision — portraits, architecture, and scenic landscapes.</div>
+          <div class="skill-tag">Watercolour · Oil · Acrylic</div>
+        </div>
+        <div class="skill-card reveal reveal-delay-4">
+          <span class="skill-icon">🔮</span>
+          <div class="skill-name">Mandala Art</div>
+          <div class="skill-desc">Intricate, spiritually rooted mandala compositions crafted with meditative precision — each a universe of symmetry and symbolism.</div>
+          <div class="skill-tag">Pen · Brush · Dotwork</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SERVICES ===== -->
+  <section id="services">
+    <div class="section-label reveal">What I Offer</div>
+    <h2 class="section-heading reveal">
+      Services<br/><em>tailored to you</em>
+    </h2>
+    <div class="services-grid">
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">01</div>
+        <div class="service-name">Marriage Ceremonies</div>
+        <div class="service-desc">Custom art and live painting for your special day — from bridal portraits and wedding backdrops to decorative panels that become lifelong memories.</div>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">02</div>
+        <div class="service-name">Wall Paintings</div>
+        <div class="service-desc">Transform any space with bespoke murals. From residential interiors to commercial spaces — over 1,000 walls across India have been brought alive with Monal's brush.</div>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-num">03</div>
+        <div class="service-name">Exhibition Paintings</div>
+        <div class="service-desc">Gallery-grade artworks created for cultural and artistic exhibitions. Each canvas is a conversation — with history, society, and the human spirit.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="full-divider"/>
+
+  <!-- ===== ACHIEVEMENTS ===== -->
+  <div class="achievements-section" id="achievements">
+    <div class="achievements-inner">
+      <div class="section-label reveal">Honours & Milestones</div>
+      <h2 class="section-heading reveal">
+        Achievements<br/><em>that speak</em>
+      </h2>
+      <div class="achievement-list">
+
+        <div class="achievement-item reveal">
+          <div class="achievement-year">Paris<br/>Louvre</div>
+          <div>
+            <div class="achievement-title">Exhibited at the Louvre Museum, Paris</div>
+            <div class="achievement-desc">Monal's masterpiece depicting Jaipur's iconic Hawa Mahal was selected and exhibited at the world-renowned Louvre Museum, Paris, as a work of cultural heritage — a profound recognition of Indian art on the global stage.</div>
+            <span class="achievement-badge">Cultural Heritage · Global Recognition</span>
+          </div>
+        </div>
+
+        <div class="achievement-item reveal">
+          <div class="achievement-year">1000+<br/>Clients</div>
+          <div>
+            <div class="achievement-title">Over 1,000 Wall Painting Commissions</div>
+            <div class="achievement-desc">A remarkable milestone of serving over a thousand clients for wall painting projects across homes, offices, schools, and public spaces — each wall a unique story painted with dedication and artistry.</div>
+            <span class="achievement-badge">Community Impact · Proven Trust</span>
+          </div>
+        </div>
+
+        <div class="achievement-item reveal">
+          <div class="achievement-year">Heritage<br/>Artist</div>
+          <div>
+            <div class="achievement-title">Hawa Mahal — A Cultural Portrait</div>
+            <div class="achievement-desc">The realistic painting of Hawa Mahal stands as Monal's most celebrated work — a tribute to Rajasthan's architectural legacy, recognised internationally for its authenticity, detail, and emotional resonance.</div>
+            <span class="achievement-badge">Realism · Architecture · Heritage</span>
+          </div>
+        </div>
+
+        <div class="achievement-item reveal">
+          <div class="achievement-year">Multi<br/>Discipline</div>
+          <div>
+            <div class="achievement-title">Mastery Across Four Art Forms</div>
+            <div class="achievement-desc">Rare versatility spanning pencil sketching, colourful abstract painting, hyper-realistic portraiture, and intricate mandala art — making Monal one of India's most well-rounded contemporary artists.</div>
+            <span class="achievement-badge">Versatility · Mastery · Innovation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GALLERY ===== -->
+  <section id="gallery" style="padding-bottom: 0;">
+    <div class="section-label reveal">Visual Showcase</div>
+    <h2 class="section-heading reveal">
+      A glimpse of<br/><em>the collection</em>
+    </h2>
+  </section>
+  <div class="gallery-grid" style="max-width:100%; margin: 0;">
+    <div class="gallery-item">
+      <div class="gallery-pattern">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="p1" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+              <circle cx="30" cy="30" r="20" fill="none" stroke="white" stroke-width="0.5"/>
+              <circle cx="30" cy="30" r="10" fill="none" stroke="white" stroke-width="0.5"/>
+              <line x1="10" y1="30" x2="50" y2="30" stroke="white" stroke-width="0.3"/>
+              <line x1="30" y1="10" x2="30" y2="50" stroke="white" stroke-width="0.3"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#p1)"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-label">Hawa Mahal — Louvre Collection</div></div>
+    </div>
+    <div class="gallery-item" style="background:#222">
+      <div class="gallery-bg">🌸</div>
+      <div class="gallery-overlay"><div class="gallery-label">Mandala Series I</div></div>
+    </div>
+    <div class="gallery-item" style="background:#333">
+      <div class="gallery-bg">🎭</div>
+      <div class="gallery-overlay"><div class="gallery-label">Abstract Emotions</div></div>
+    </div>
+    <div class="gallery-item" style="background:#1a1a1a">
+      <div class="gallery-pattern">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="p2" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <rect x="5" y="5" width="30" height="30" fill="none" stroke="white" stroke-width="0.4"/>
+              <rect x="15" y="15" width="10" height="10" fill="white" opacity="0.3"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#p2)"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-label">Portrait Sketches</div></div>
+    </div>
+    <div class="gallery-item" style="background:#111">
+      <div class="gallery-bg">🏛️</div>
+      <div class="gallery-overlay"><div class="gallery-label">Wall Murals</div></div>
+    </div>
+    <div class="gallery-item" style="background:#2a2a2a">
+      <div class="gallery-pattern">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="p3" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+              <polygon points="25,5 45,45 5,45" fill="none" stroke="white" stroke-width="0.5"/>
+              <circle cx="25" cy="25" r="8" fill="none" stroke="white" stroke-width="0.4"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#p3)"/>
+        </svg>
+      </div>
+      <div class="gallery-overlay"><div class="gallery-label">Exhibition Works</div></div>
+    </div>
+  </div>
+
+  <!-- ===== CONTACT / FOOTER ===== -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="reveal">
+          <div class="section-label" style="color:var(--mid-gray); margin-bottom:20px">Get in Touch</div>
+          <h2 class="footer-heading">
+            Let's create<br/><em>something</em><br/>beautiful.
+          </h2>
+          <p class="footer-sub">
+            Whether it's a wedding canvas, a statement wall, or a gallery piece — every great artwork starts with a conversation. Reach out and let's begin.
+          </p>
+        </div>
+        <div class="contact-items reveal reveal-delay-2">
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <div class="contact-type">Phone</div>
+              <div class="contact-value">
+                <a href="tel:123456789">+91 123 456 789</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-type">Email</div>
+              <div class="contact-value">
+                <a href="mailto:monal@gmail.com">monal@gmail.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-type">Based In</div>
+              <div class="contact-value">India</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-name">Monal Sharma</div>
+        <div class="footer-copy">© 2025 Monal Sharma · All Rights Reserved · Fine Artist</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animateCursor() {
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
